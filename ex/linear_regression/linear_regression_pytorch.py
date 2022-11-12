@@ -2,16 +2,16 @@ import torch
 from torch.utils import data
 from torch import nn
 
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+from util import data_loader
+
 def synthetic_data(w, b, num_examples):
   X = torch.normal(0, 1, (num_examples, len(w)))
   y = torch.matmul(X, w) + b
   y += torch.normal(0, 0.01, y.shape) # label噪声
   return X, y.reshape((-1, 1))
-
-def load_array(data_arrays, batch_size, is_train=True):
-  # 构造pytorch数据迭代器
-  dataset = data.TensorDataset(*data_arrays)
-  return data.DataLoader(dataset, batch_size, shuffle=is_train)
 
 true_w = torch.tensor([2, -3.4])
 true_b = 4.2
@@ -19,7 +19,7 @@ features, labels = synthetic_data(true_w, true_b, 1000)
 
 # 数据迭代器
 batch_size = 10
-data_iter = load_array((features, labels), batch_size)
+data_iter = data_loader.load_array((features, labels), batch_size)
 
 # 使用单层神经网络定义模型
 net = nn.Sequential(nn.Linear(2, 1))
