@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import re
 from pathlib import Path
 import random
+# import cv2 as cv
 
 def load_array(data_arrays, batch_size, is_train=True):
   # 构造pytorch数据迭代器
@@ -60,6 +61,16 @@ def load_data_fashion_mnist(batch_size, resize=None):
                           num_workers=get_dataloader_workers()),
           data.DataLoader(mnist_test, batch_size, shuffle=False,
                           num_workers=get_dataloader_workers()))
+
+# 提取图片
+# train_iter, test_iter = load_data_fashion_mnist(1)
+# X, y = next(iter(train_iter))
+# X = X.reshape(1, 28, 28)[0].numpy()*255
+# cv.imwrite("/home/sean/code/learn/python/learn-ml/data/mnist_sample_1.jpg", X)
+# new_image = cv.imread("/home/sean/code/learn/python/learn-ml/data/mnist_sample_1.jpg")
+# new_image = cv.cvtColor(new_image, cv.COLOR_BGR2GRAY)
+# print(new_image.size)
+
 
 def read_time_machine():
   file_path = str(Path(__file__).resolve().parents[1]) + "/data/timemachine.txt"

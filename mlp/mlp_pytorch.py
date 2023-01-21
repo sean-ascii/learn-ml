@@ -24,3 +24,7 @@ trainer = torch.optim.SGD(net.parameters(), lr=lr)
 
 train_iter, test_iter = data_loader.load_data_fashion_mnist(batch_size)
 utils.train_simple_classify(net, train_iter, test_iter, loss, num_epochs, trainer)
+
+# save model
+model_file_path = str(Path(__file__).resolve().parents[1]) + "/data/model/mlp_mnist_classfity.pth"
+torch.save(net.state_dict(), model_file_path)
